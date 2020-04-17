@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>TZ Test</title>
+  </head>
+  <body>
+    <output></output>
+    <script>
+      // Get UTC time
+      fetch("https://worldtimeapi.org/api/timezone/Etc/UTC")
+        .then(response => response.json())
+        .then(({ unixtime: serverUnixTS }) => {
+          // Get local UTC time
+          const now = new Date();
+          const localUnixTS = Math.floor(now.getTime() / 1000);
+
+          // Get the difference
+          const diff = localUnixTS - serverUnixTS;
+
+          if (Math.abs(diff) > 0) {
+            document.querySelector("output").innerHTML =
+              "⏱❌😱 Your time zone is configured incorrectly";
+          } else {
+            document.querySelector("output").innerHTML = "👍🏻";
+          }
+        });
+    </script>
+  </body>
+</html>
